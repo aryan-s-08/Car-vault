@@ -18,7 +18,6 @@
 
     <main class="container">
         
-        <!-- STATISTICS DASHBOARD -->
         <section class="stats-dashboard">
             <div class="stat-card">
                 <div class="stat-label">TOTAL VEHICLES</div>
@@ -94,7 +93,6 @@
         </section>
     </main>
 
-    <!-- EDIT MODAL -->
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -125,12 +123,10 @@
         </div>
     </div>
 
-    <!-- Firebase CDN -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Your Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDfusk5x3GTp_04HyoUjaeYc2sWHVY-m-E",
             authDomain: "car-vault-0810.firebaseapp.com",
@@ -140,15 +136,13 @@
             appId: "1:1099909391089:web:92c4154b6a1c7e1a542b50"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Make Firebase available globally for carscript.js
         window.db = db;
         window.firebaseModules = { collection, addDoc, getDocs, deleteDoc, doc, query, where, updateDoc };
         
-        console.log("✅ Firebase Connected Successfully!");
+        console.log(" Firebase Connected Successfully!");
     </script>
 
     <script src="carscript.js"></script>

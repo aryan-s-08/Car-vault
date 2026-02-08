@@ -1,11 +1,10 @@
-// Wait for Firebase to be ready
+
 window.addEventListener('load', () => {
     setTimeout(() => {
         initializeApp();
     }, 100);
 });
 
-// Global variables to store all cars for filtering/searching
 let allCarsGlobal = [];
 let currentFilter = 'All';
 
@@ -21,13 +20,11 @@ function initializeApp() {
 
     console.log('✅ App initialized with Firebase');
 
-    // FETCH CARS ON LOAD
     fetchCars();
     setupFilters();
     setupSearch();
     setupEditModal();
 
-    // ADD CAR (CREATE)
     document.getElementById('carForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -42,7 +39,6 @@ function initializeApp() {
         };
 
         try {
-            // Check if chassis number already exists
             const q = query(collection(db, 'cars'), where('chassis', '==', carData.chassis));
             const querySnapshot = await getDocs(q);
             
@@ -51,7 +47,6 @@ function initializeApp() {
                 return;
             }
 
-            // Add to Firestore
             await addDoc(collection(db, 'cars'), carData);
             
             alert("✅ Vehicle added to Vault!");
@@ -64,7 +59,6 @@ function initializeApp() {
         }
     });
 
-    // FETCH & RENDER (READ)
     async function fetchCars() {
         try {
             const querySnapshot = await getDocs(collection(db, 'cars'));
@@ -87,7 +81,6 @@ function initializeApp() {
         }
     }
 
-    // UPDATE STATISTICS
     function updateStatistics(cars) {
         const total = cars.length;
         const totalValue = cars.reduce((sum, car) => sum + (parseFloat(car.price) || 0), 0);
@@ -134,7 +127,6 @@ function initializeApp() {
         document.getElementById('carCount').innerText = `${cars.length} VEHICLE${cars.length !== 1 ? 'S' : ''} AVAILABLE`;
     }
 
-    // FILTER LOGIC
     function setupFilters() {
         const filterButtons = document.querySelectorAll('.filter-btn');
         filterButtons.forEach(btn => {
@@ -147,7 +139,6 @@ function initializeApp() {
         });
     }
 
-    // SEARCH FUNCTIONALITY
     function setupSearch() {
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', (e) => {
@@ -155,18 +146,15 @@ function initializeApp() {
         });
     }
 
-    // APPLY FILTERS AND SEARCH
     function applyCurrentFilters() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         
         let filtered = allCarsGlobal;
         
-        // Apply category filter
         if (currentFilter !== 'All') {
             filtered = filtered.filter(car => car.category === currentFilter);
         }
         
-        // Apply search filter
         if (searchTerm) {
             filtered = filtered.filter(car => 
                 car.make.toLowerCase().includes(searchTerm) ||
@@ -178,7 +166,6 @@ function initializeApp() {
         renderCars(filtered);
     }
 
-    // EDIT MODAL SETUP
     function setupEditModal() {
         const modal = document.getElementById('editModal');
         const closeBtn = document.querySelector('.close-modal');
@@ -193,14 +180,12 @@ function initializeApp() {
             }
         };
         
-        // Handle edit form submission
         document.getElementById('editForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             await updateCar();
         });
     }
 
-    // OPEN EDIT MODAL
     window.openEditModal = function(carId) {
         const car = allCarsGlobal.find(c => c.id === carId);
         if (!car) return;
@@ -216,12 +201,10 @@ function initializeApp() {
         document.getElementById('editModal').style.display = 'block';
     };
 
-    // CLOSE EDIT MODAL
     window.closeEditModal = function() {
         document.getElementById('editModal').style.display = 'none';
     };
 
-    // UPDATE CAR (EDIT)
     async function updateCar() {
         const carId = document.getElementById('editCarId').value;
         
@@ -245,7 +228,6 @@ function initializeApp() {
         }
     }
 
-    // DELETE
     window.deleteCar = async function(id) {
         if(confirm("🗑️ Remove this vehicle from vault?")) {
             try {
