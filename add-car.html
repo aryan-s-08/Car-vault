@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mercedes-Benz | Register Vehicle</title>
+    <link rel="stylesheet" href="carstyle.css">
+</head>
+<body>
+    <div class="admin-panel">
+        <h2 class="section-title">New Arrival Registration</h2>
+        <form id="carForm" class="mercedes-form">
+            <div class="row">
+                <input type="text" id="make" placeholder="BRAND" required>
+                <input type="text" id="model" placeholder="MODEL" required>
+                <input type="text" id="chassis" placeholder="CHASSIS NO. (VIN)" required>
+            </div>
+            <div class="row">
+                <select id="category" required>
+                    <option value="" disabled selected>BODY TYPE</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="Hatchback">Hatchback</option>
+                    <option value="Sub4m">Sub-4 Metre</option>
+                </select>
+                <input type="number" id="year" placeholder="YEAR" required>
+                <input type="number" id="price" placeholder="PRICE ($)" required>
+            </div>
+            <button type="submit" class="btn-mercedes">ADD TO COLLECTION</button>
+        </form>
+        <a href="car_vault.html" style="color: white; display: block; margin-top: 20px;">← Back to Showroom</a>
+    </div>
+    <script src="carscript.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aryan Sharma | Digital Showroom Vault</title>
+    <link rel="stylesheet" href="carstyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">ARYAN SHARMA <span class="vault-tag">| VAULT</span></div>
+        <div class="nav-links">
+            <span class="active">INVENTORY MANAGEMENT</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+        <!-- STATISTICS DASHBOARD -->
+        <section class="stats-dashboard">
+            <div class="stat-card">
+                <div class="stat-label">TOTAL VEHICLES</div>
+                <div class="stat-value" id="totalCars">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">TOTAL VAULT VALUE</div>
+                <div class="stat-value" id="totalValue">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">SUV</div>
+                <div class="stat-value" id="suvCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">SEDAN</div>
+                <div class="stat-value" id="sedanCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">HATCHBACK</div>
+                <div class="stat-value" id="hatchbackCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">SUB-4M</div>
+                <div class="stat-value" id="sub4mCount">0</div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="admin-panel">
+            <h2 class="section-title">Vehicle Registration</h2>
+            <form id="carForm" class="mercedes-form">
+                <div class="row">
+                    <input type="text" id="make" placeholder="BRAND (E.G. MERCEDES)" required>
+                    <input type="text" id="model" placeholder="MODEL (E.G. G-WAGON)" required>
+                    <input type="text" id="chassis" placeholder="CHASSIS NO. (VIN)" required>
+                </div>
+                <div class="row">
+                    <select id="category" required>
+                        <option value="" disabled selected>BODY TYPE</option>
+                        <option value="SUV">SUV</option>
+                        <option value="Sedan">Sedan</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Sub4m">Sub-4 Metre</option>
+                    </select>
+                    <input type="number" id="year" placeholder="YEAR" required>
+                    <input type="number" id="price" placeholder="PRICE ($)" required>
+                </div>
+                <button type="submit" class="btn-mercedes">ADD TO COLLECTION</button>
+            </form>
+        </section>
+
+        <hr class="divider">
+
+        <section class="showroom">
+            <div class="showroom-header">
+                <h2>The Collection</h2>
+                <div class="controls-wrapper">
+                    <div class="filter-bar">
+                        <button class="filter-btn active" data-filter="All">ALL</button>
+                        <button class="filter-btn" data-filter="SUV">SUV</button>
+                        <button class="filter-btn" data-filter="Sedan">SEDAN</button>
+                        <button class="filter-btn" data-filter="Hatchback">HATCHBACK</button>
+                        <button class="filter-btn" data-filter="Sub4m">SUB-4M</button>
+                    </div>
+                    <input type="text" id="searchInput" placeholder="SEARCH BY MAKE, MODEL, OR VIN..." class="search-input">
+                </div>
+                <p id="carCount">0 VEHICLES AVAILABLE</p>
+            </div>
+            
+            <div id="carGrid" class="showroom-grid">
+            </div>
+        </section>
+    </main>
+
+    <!-- EDIT MODAL -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="section-title">Edit Vehicle</h2>
+            <form id="editForm" class="mercedes-form">
+                <input type="hidden" id="editCarId">
+                <div class="row">
+                    <input type="text" id="editMake" placeholder="BRAND" required>
+                    <input type="text" id="editModel" placeholder="MODEL" required>
+                    <input type="text" id="editChassis" placeholder="CHASSIS NO. (VIN)" required disabled>
+                </div>
+                <div class="row">
+                    <select id="editCategory" required>
+                        <option value="" disabled>BODY TYPE</option>
+                        <option value="SUV">SUV</option>
+                        <option value="Sedan">Sedan</option>
+                        <option value="Hatchback">Hatchback</option>
+                        <option value="Sub4m">Sub-4 Metre</option>
+                    </select>
+                    <input type="number" id="editYear" placeholder="YEAR" required>
+                    <input type="number" id="editPrice" placeholder="PRICE ($)" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-mercedes">UPDATE VEHICLE</button>
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase CDN -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Your Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfusk5x3GTp_04HyoUjaeYc2sWHVY-m-E",
+            authDomain: "car-vault-0810.firebaseapp.com",
+            projectId: "car-vault-0810",
+            storageBucket: "car-vault-0810.firebasestorage.app",
+            messagingSenderId: "1099909391089",
+            appId: "1:1099909391089:web:92c4154b6a1c7e1a542b50"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make Firebase available globally for carscript.js
+        window.db = db;
+        window.firebaseModules = { collection, addDoc, getDocs, deleteDoc, doc, query, where, updateDoc };
+        
+        console.log("✅ Firebase Connected Successfully!");
+    </script>
+
+    <script src="carscript.js"></script>
+</body>
+</html>
