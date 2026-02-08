@@ -64,7 +64,7 @@
                         <option value="Sub4m">Sub-4 Metre</option>
                     </select>
                     <input type="number" id="year" placeholder="YEAR" required>
-                    <input type="number" id="price" placeholder="PRICE ($)" required>
+                    <input type="number" id="price" placeholder="PRICE (₹)" required>
                 </div>
                 <button type="submit" class="btn-mercedes">ADD TO COLLECTION</button>
             </form>
@@ -113,7 +113,7 @@
                         <option value="Sub4m">Sub-4 Metre</option>
                     </select>
                     <input type="number" id="editYear" placeholder="YEAR" required>
-                    <input type="number" id="editPrice" placeholder="PRICE ($)" required>
+                    <input type="number" id="editPrice" placeholder="PRICE (₹)" required>
                 </div>
                 <div class="modal-buttons">
                     <button type="submit" class="btn-mercedes">UPDATE VEHICLE</button>
@@ -142,7 +142,7 @@
         window.db = db;
         window.firebaseModules = { collection, addDoc, getDocs, deleteDoc, doc, query, where, updateDoc };
         
-        console.log(" Firebase Connected Successfully!");
+        console.log("✅ Firebase Connected Successfully!");
     </script>
 
     <script src="carscript.js"></script>

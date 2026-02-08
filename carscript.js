@@ -91,7 +91,7 @@ function initializeApp() {
         const sub4mCount = cars.filter(car => car.category === 'Sub4m').length;
         
         document.getElementById('totalCars').textContent = total;
-        document.getElementById('totalValue').textContent = '$' + totalValue.toLocaleString();
+        document.getElementById('totalValue').textContent = '₹' + totalValue.toLocaleString('en-IN');
         document.getElementById('suvCount').textContent = suvCount;
         document.getElementById('sedanCount').textContent = sedanCount;
         document.getElementById('hatchbackCount').textContent = hatchbackCount;
@@ -115,7 +115,7 @@ function initializeApp() {
                         <span class="chassis-no">VIN: ${car.chassis}</span>
                         <h3>${car.make} ${car.model}</h3>
                         <p>${car.year} | ${car.category}</p>
-                        <p style="color: white; font-weight: bold;">$${Number(car.price).toLocaleString()}</p>
+                        <p style="color: white; font-weight: bold;">₹${Number(car.price).toLocaleString('en-IN')}</p>
                         <div class="card-actions">
                             <button class="btn-edit" onclick="openEditModal('${car.id}')">EDIT</button>
                             <button class="btn-remove" onclick="deleteCar('${car.id}')">REMOVE</button>
